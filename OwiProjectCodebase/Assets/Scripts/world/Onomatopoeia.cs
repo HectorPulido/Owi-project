@@ -3,16 +3,16 @@ using System.Collections;
 
 public class Onomatopoeia : MonoBehaviour
 {
+    public static Onomatopoeia singleton;
+
     public int poolSize = 10;
-    public OnomatopeiaItem prefab;
-    
-    public float timeToDisable = 1f;
+    public OnomatopeiaItem prefab;    
 
     private OnomatopeiaItem[] pool;
 
-    public static Onomatopoeia singleton;
-
+    [SerializeField]
     private Transform temporalOnomatopoeiaTransform;
+    [SerializeField]
     private string temporalOnomatopoeiaText;
 
     private void Awake()
@@ -39,6 +39,7 @@ public class Onomatopoeia : MonoBehaviour
         {
             pool[i] = Instantiate(prefab, transform);
             pool[i].gameObject.SetActive(false);
+            pool[i].gameObject.name = "Onomatopoeia " + i;
         }
     }
 
@@ -52,14 +53,8 @@ public class Onomatopoeia : MonoBehaviour
 
             pool[i].gameObject.SetActive(true);
             pool[i].SetOnomatopoeia(position, textToShow);
-            StartCoroutine(DisableItem(pool[i]));
             return;
         }
-    }
-
-    IEnumerator DisableItem(OnomatopeiaItem item) {
-        yield return new WaitForSeconds(timeToDisable);
-        item.gameObject.SetActive(false);
     }
 
     public void MoveText(Transform t) {

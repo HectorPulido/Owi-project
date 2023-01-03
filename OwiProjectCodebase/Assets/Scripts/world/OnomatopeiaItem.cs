@@ -7,7 +7,7 @@ public class OnomatopeiaItem : MonoBehaviour
     private TMP_Text textHolder;
 
     [SerializeField]
-    private Animator animator;
+    private BaseAnimation animator;
 
     private void Awake()
     {
@@ -18,14 +18,15 @@ public class OnomatopeiaItem : MonoBehaviour
     {
         if (textHolder == null)
             textHolder = GetComponentInChildren<TMP_Text>();
-        
+
         if (animator == null)
-            animator = GetComponent<Animator>();
+            animator = GetComponent<BaseAnimation>();
     }
 
-    public void SetOnomatopoeia(Vector3 position, string textToShow) {
-        animator.SetTrigger("play");
+    public void SetOnomatopoeia(Vector3 position, string textToShow)
+    {
         transform.position = position;
         textHolder.text = textToShow;
+        animator.StartAnimation();
     }
 }

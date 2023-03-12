@@ -14,6 +14,12 @@ public class OnomatopeiaItem : MonoBehaviour
         Dependencies();
     }
 
+    private void Update()
+    {
+        var rot = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        transform.rotation = rot;
+    }
+
     private void Dependencies()
     {
         if (textHolder == null)

@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +20,7 @@ public class Door : Actionable
 
     public override void Act()
     {
+        print("Hello");
         // if there are not enough colliders to trigger the door, do nothing
         if(items < minCollidersToTrigger) 
             return;

@@ -8,6 +8,7 @@ namespace LKHGames
 {
     public class GradientGenerator : MonoBehaviour
     {
+        # if UNITY_EDITOR
         public Gradient gradient;
         [Tooltip("Input the saving path here. Changing the saving path is recommended incase of updates require deletion of the plugin.")]
         public string savingPath = "/LKHGames/GradientTextureGenerator/GeneratedTexture/";
@@ -20,13 +21,14 @@ namespace LKHGames
         private Texture2D _gradientTexture;
         private Texture2D _tempTexture;
 
-        public enum OnPlayMode {Off, UpdateOnStart, UpdateEveryFrame};
+        public enum OnPlayMode { Off, UpdateOnStart, UpdateEveryFrame };
         [Header("Material Properties")]
         public OnPlayMode onPlayMode;
         public string propertiesName;
         public Renderer materialRenderer;
+        public Material materialToChange;
 
-        public enum TextureFormat {Png, Jpg};
+        public enum TextureFormat { Png, Jpg };
         [Header("Texture Baker")]
         public TextureFormat textureFormat;
 
@@ -81,10 +83,15 @@ namespace LKHGames
 
         public void UpdateGradientTexture()
         {
-            if(materialRenderer!=null)
+            if (materialRenderer != null)
             {
                 _gradientTexture = GenerateGradientTexture(gradient);
                 materialRenderer.material.SetTexture(propertiesName, _gradientTexture);
+            }
+            if (materialToChange != null)
+            {
+                _gradientTexture = GenerateGradientTexture(gradient);
+                materialToChange.SetTexture(propertiesName, _gradientTexture);
             }
         }
 
@@ -101,32 +108,34 @@ namespace LKHGames
                     saveFormat = ".jpg";
                     break;
             }
-            
+
             _gradientTexture = GenerateGradientTexture(gradient);
             byte[] _bytes = _gradientTexture.EncodeToPNG();
 
             #region Create new folder if it doesn't exist
-			if(AssetDatabase.IsValidFolder("Assets/" + savingPath) == false)
-			{
-				string[] folderNameArray = savingPath.Split('/');
-				string newfolderPath = "";
+            if (AssetDatabase.IsValidFolder("Assets/" + savingPath) == false)
+            {
+                string[] folderNameArray = savingPath.Split('/');
+                string newfolderPath = "";
 
-				for(int i = 0; i < folderNameArray.Length-2; i++)
-				{	
-					newfolderPath += folderNameArray[i];
-					if(i != folderNameArray.Length-3)
-					{
-						newfolderPath += "/";
-					}
-				}
-				AssetDatabase.CreateFolder("Assets" + newfolderPath, folderNameArray[folderNameArray.Length-2]);
-				Debug.Log("<color=#FFFF00><b>Path saving location not found, New folder was created</b></color>");
-			}
-			#endregion
+                for (int i = 0; i < folderNameArray.Length - 2; i++)
+                {
+                    newfolderPath += folderNameArray[i];
+                    if (i != folderNameArray.Length - 3)
+                    {
+                        newfolderPath += "/";
+                    }
+                }
+                AssetDatabase.CreateFolder("Assets" + newfolderPath, folderNameArray[folderNameArray.Length - 2]);
+                Debug.Log("<color=#FFFF00><b>Path saving location not found, New folder was created</b></color>");
+            }
+            #endregion
 
             var randomIndex = Random.Range(0, 999999).ToString();
             File.WriteAllBytes(Application.dataPath + savingPath + "GradientTexture_" + randomIndex + saveFormat, _bytes);
             Debug.Log("<color=#00FF00><b> GradientTexture_" + randomIndex + saveFormat + " baked sucessfully. Saved in the following path: " + "Assets" + savingPath + "</b></color>");
         }
+        #endif
     }
+
 }

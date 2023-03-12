@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 21488535695523520}
   - component: {fileID: 21488535695523527}
   - component: {fileID: 3623897252988232304}
+  - component: {fileID: 3623897252988232305}
   m_Layer: 6
   m_Name: Owi
   m_TagString: Player
@@ -35,7 +36,7 @@ Transform:
   - {fileID: 21488535869928193}
   - {fileID: 21488536162757056}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &21488535695523521
 MonoBehaviour:
@@ -51,11 +52,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 21488535695523520}
   followingMultiplier: 0.9
-  verticalSpeed: 1
-  horizontalSpeed: 1.5
+  verticalSpeed: 2
+  horizontalSpeed: 2
   following: 0
   pivot: {fileID: 21488536558270293}
-  bumping: {fileID: 0}
+  bumping: {fileID: 3623897252293668781}
 --- !u!54 &21488535695523520
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -104,6 +105,25 @@ MonoBehaviour:
   maxMana: 100
   mana: 100
   alive: 1
+  autoHeal: 0
+  autoHealAmount: 10
+  autoHealTime: 1
+--- !u!114 &3623897252988232305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21488535695523526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44045a2c557a744f3a86fab5cc16e88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: []
+  movement: []
+  currentMovement: 0
+  projectileSpawnPoint: {fileID: 0}
 --- !u!1 &21488535869928197
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,9 +200,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1590933140, guid: 034f3352e5c0b426dab1aaf80a519144, type: 3}
+  m_Sprite: {fileID: -716219285, guid: b539b33c6a1ae4ed480f2116dc5933c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.9, y: 7.2400002}
@@ -209,6 +229,7 @@ MonoBehaviour:
   maxScaleX: 1.1
   idleSpeed: 5
   movingSpeed: 10
+  billboard: 0
   moving: 0
 --- !u!1 &21488536162757063
 GameObject:
@@ -263,7 +284,7 @@ MonoBehaviour:
   m_UVBias: {x: 0, y: 0}
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 0.5}
-  m_Size: {x: 1.3, y: 0.31, z: 1}
+  m_Size: {x: 0.5, y: 0.5, z: 1}
   m_FadeFactor: 0.511
 --- !u!1 &21488536558270292
 GameObject:

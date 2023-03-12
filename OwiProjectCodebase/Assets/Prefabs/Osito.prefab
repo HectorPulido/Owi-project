@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1540778340}
   - component: {fileID: 1540778341}
+  - component: {fileID: 7633682648184782905}
   - component: {fileID: 1540778343}
   - component: {fileID: 1540778342}
   m_Layer: 0
@@ -111,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540778339}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.358, y: 0.415, z: 0}
+  m_LocalPosition: {x: 0.35800004, y: 0.41500005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,17 +160,37 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 47a77c27e09ed40da8c6d51f3be7c3aa, type: 3}
+  m_Sprite: {fileID: 1870507112, guid: 7b60cc55fdab045c79d92bd628a709a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.12, y: 5.12}
+  m_Size: {x: 0.29, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7633682648184782905
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540778339}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 36f41697e1ac44a33976ab2cdfaf7997, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1540778343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  destroyAfterCollision: 0
   attackTo: 0
+  coolDownTime: 0.5
 --- !u!135 &1540778342
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -196,8 +217,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.256
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.45
+  m_Center: {x: 0.0000019073486, y: 0, z: 0.00000047683716}
 --- !u!1 &3623897251941882285
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3623897252596801016}
+  m_Father: {fileID: 3623897252672639035}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3623897252343809854
@@ -254,7 +275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3623897252343809854}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.03, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.076, y: 0.5, z: -0.065}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -281,7 +302,7 @@ MonoBehaviour:
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
   m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0.5}
+  m_Offset: {x: 0, y: 0.06, z: 0.5}
   m_Size: {x: 0.5, y: 0.5, z: 1}
   m_FadeFactor: 0.511
 --- !u!1 &3623897252596801020
@@ -316,7 +337,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1139730802}
-  - {fileID: 3623897251941882284}
   - {fileID: 1540778340}
   m_Father: {fileID: 3623897252672639035}
   m_RootOrder: -1
@@ -362,9 +382,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1961753603, guid: 034f3352e5c0b426dab1aaf80a519144, type: 3}
+  m_Sprite: {fileID: 1230681022, guid: b539b33c6a1ae4ed480f2116dc5933c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.9, y: 7.2400002}
@@ -391,6 +411,7 @@ MonoBehaviour:
   maxScaleX: 1.1
   idleSpeed: 5
   movingSpeed: 10
+  billboard: 0
   moving: 0
 --- !u!114 &1218146200
 MonoBehaviour:
@@ -412,7 +433,34 @@ MonoBehaviour:
     m_RotationOrder: 4
   postionYCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.9417399
+      outSlope: 0.9417399
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.64545226
+      value: 0.60784817
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.7144325
+      outSlope: -1.7144325
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -474,10 +522,19 @@ MonoBehaviour:
       inWeight: 0.057754986
       outWeight: 1
     - serializedVersion: 3
+      time: 0.9568898
+      value: 2.7432504
+      inSlope: 704.283
+      outSlope: 704.283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 581.25464
-      outSlope: 581.25464
+      inSlope: -63.633453
+      outSlope: -63.633453
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -503,7 +560,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 0.75
+  duration: 0.5
   delay: 0
   repeat: 0
   OnAnimationFinished:
@@ -557,6 +614,7 @@ GameObject:
   - component: {fileID: 3623897252672639033}
   - component: {fileID: 3623897252672639038}
   - component: {fileID: 1929486935}
+  - component: {fileID: 1929486936}
   m_Layer: 6
   m_Name: Osito
   m_TagString: Player
@@ -571,16 +629,17 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3623897252672639039}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.9018325, z: -0, w: 0.43208575}
+  m_LocalPosition: {x: 0, y: 0.27800003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3623897251941882284}
   - {fileID: 3623897252596801016}
   - {fileID: 3623897252343809849}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 128.8, z: 0}
 --- !u!114 &3623897252672639032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,8 +654,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3623897252672639033}
   followingMultiplier: 0.9
-  verticalSpeed: 1
-  horizontalSpeed: 1.5
+  verticalSpeed: 2
+  horizontalSpeed: 2
   following: 0
   pivot: {fileID: 3623897251941882284}
   bumping: {fileID: 3623897252596801018}
@@ -626,7 +685,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.1
+  m_Radius: 0.17
   m_Height: 0.78
   m_Direction: 1
   m_Center: {x: 0, y: 0.41, z: 0}
@@ -648,3 +707,40 @@ MonoBehaviour:
   maxMana: 100
   mana: 100
   alive: 1
+  autoHeal: 0
+  autoHealAmount: 10
+  autoHealTime: 1
+--- !u!114 &1929486936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623897252672639039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44045a2c557a744f3a86fab5cc16e88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: []
+  movement:
+  - name: ClawAttack
+    onAttack:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1218146200}
+          m_TargetAssemblyTypeName: BaseAnimation, Assembly-CSharp
+          m_MethodName: StartAnimation
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    coolDown: 0.6
+    coolDownTimer: 0
+  currentMovement: 0
+  projectileSpawnPoint: {fileID: 0}

@@ -21,15 +21,27 @@ public class Bumping : MonoBehaviour
     [SerializeField]
     float movingSpeed = 80;
 
+    [SerializeField]
+    bool billboard = false;
+
+    [HideInInspector]
     public bool moving = false;
 
     private float currentSpeed = 20;
-
     private Vector3 newScale;
 
 
     private void Update(){
         Bump();
+        Billboard();
+    }
+
+    private void Billboard() {
+        if(!billboard)
+            return;
+
+        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+
     }
 
     private void Bump(){

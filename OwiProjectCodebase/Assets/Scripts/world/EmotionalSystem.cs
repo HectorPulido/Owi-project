@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -13,10 +14,7 @@ public class EmotionalSystem : MonoBehaviour
     private Sprite[] emotions;
 
     [SerializeField]
-    private SpriteRenderer emotionPlace;
-
-    [SerializeField]
-    private SpriteRenderer emotionSystem;
+    private Image emotionPlace;
 
     public static EmotionalSystem singleton;
 
@@ -27,10 +25,6 @@ public class EmotionalSystem : MonoBehaviour
         if (!singleton)
         {
             singleton = this;
-
-            emotionSystem.sortingOrder = int.MaxValue - 1;
-            emotionPlace.sortingOrder = int.MaxValue;
-
             return;
         }
 

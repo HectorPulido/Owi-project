@@ -8,6 +8,7 @@ public class BlackScreenManager : MonoBehaviour
     // This is the script of a black screen that can appear and disappear
     // at any moment, so needs a singleton
 
+    public bool initialFaded = true;
     public static BlackScreenManager singleton;
     private Image blackScreen;
 
@@ -20,7 +21,19 @@ public class BlackScreenManager : MonoBehaviour
         }
         singleton = this;
         blackScreen = GetComponent<Image>();
+
+        if (initialFaded)
+        {
+            StartCoroutine(InitialFade());
+        }
     }
+
+    IEnumerator InitialFade() {
+        SetBlackScreenAlpha();
+        yield return new WaitForSeconds(1.5f);
+        yield return FadeTo(0, 1f);
+    }
+
 
     // This coroutine set the alpha of the black screen to a value from the current
     // alpha value to the target alpha value in a given time

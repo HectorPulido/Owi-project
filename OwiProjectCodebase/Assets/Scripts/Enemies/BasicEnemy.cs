@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class BasicEnemy : MonoBehaviour
 {
     public enum States { patrol, attack, waiting }
-
     public States state = States.patrol;
-    public float attackFrequency;
     public float attackRange;
-    public float attackPower;
+
     public float waitingTime;
     public float patrolRange;
 
@@ -19,14 +18,17 @@ public class BasicEnemy : MonoBehaviour
     public Bumping bumping;
     public Movement movement;
     public HealthAndMana stats;
+    public AttackManager attackManager;
 
     public GameObject explotionPrefab;
+    public UnityEvent onDieEvent;
 
     private Transform target;
     private Vector3 patrolTarget;
     private Vector3 direction;
 
-    IEnumerator Start()
+
+    private IEnumerator Start()
     {
         if (!bumping)
             bumping = GetComponent<Bumping>();
@@ -37,13 +39,11 @@ public class BasicEnemy : MonoBehaviour
         if (!stats)
             stats = GetComponent<HealthAndMana>();
 
+        if (!attackManager)
+            attackManager = GetComponent<AttackManager>();
+
         stats.healthCallback = (float amount) => healthBar.fillAmount = amount;
-        stats.aliveCallback = (bool alive) => {
-            if(!alive) {
-                Instantiate(explotionPrefab, transform.position, Quaternion.identity); 
-                Destroy(gameObject);
-            }
-        };
+        stats.aliveCallback = AliveCallback;
 
         patrolTarget = transform.position;
 
@@ -54,24 +54,38 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    float CalculateDistance(Vector3 target)
+    private void AliveCallback(bool alive)
+    {
+        if (alive)
+            return;
+
+        onDieEvent.Invoke();
+        if (explotionPrefab != null)
+        {
+            Instantiate(explotionPrefab, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
+
+    }
+
+    private float CalculateDistance(Vector3 target)
     {
         return Vector3.Distance(transform.position, target);
     }
 
-    Vector3 GetPatrolTarget()
+    private Vector3 GetPatrolTarget()
     {
         var target = Random.insideUnitCircle * patrolRange;
         return new Vector3(target.x, 0, target.y) + transform.position;
     }
 
-    Vector3 GetDirection(Vector3 target)
+    private Vector3 GetDirection(Vector3 target)
     {
         var nonNormDir = target - transform.position;
         return nonNormDir.normalized;
     }
 
-    void StatusPatrol()
+    private void StatusPatrol()
     {
         if (CalculateDistance(patrolTarget) < attackRange)
         {
@@ -98,7 +112,7 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    void StatusAttack()
+    private void StatusAttack()
     {
         if (target == null)
         {
@@ -118,14 +132,14 @@ public class BasicEnemy : MonoBehaviour
             target = null;
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up * 0.25f, direction, out hit, attackRange * (1 - 0.25f)))
+        if (distanceToTarget < attackRange)
         {
             direction = Vector3.zero;
+            attackManager.Attack();
         }
     }
 
-    IEnumerator WaitingState()
+    private IEnumerator WaitingState()
     {
         direction = Vector3.zero;
         patrolTarget = GetPatrolTarget();
@@ -134,13 +148,12 @@ public class BasicEnemy : MonoBehaviour
         state = States.patrol;
     }
 
-    void ManageState()
+    private void ManageState()
     {
         if (state == States.waiting)
         {
             return;
         }
-
 
         if (state == States.patrol)
         {
@@ -155,14 +168,19 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
+    {
+        Move();
+    }
+
+    private void Move()
     {
         var isMoving = direction.sqrMagnitude > 0;
         bumping.moving = isMoving;
-        movement.Move(new Vector2(direction.x, direction.z));
+        movement.Move(new Vector2(direction.x, direction.z), true);
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);

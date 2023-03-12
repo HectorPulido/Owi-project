@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController singleton;
+    
+    public CameraControl cameraControl;
     public bool canMove = true;
     public int currentPlayer;
     public Transform playerIndicator;
@@ -56,10 +58,20 @@ public class PlayerController : MonoBehaviour
         singleton = this;
 
         HealthUIStart();
+        UpdatePlayers();
+        CamerStart();
     }
+
+    private void CamerStart()
+    {
+        cameraControl = GameObject.FindObjectOfType<CameraControl>();
+        cameraControl.target = currentPlayerGameObject.transform;
+    }
+
+    [ContextMenu("Health UI Start")]
     private void HealthUIStart()
     {
-        healthBars = GameObject.FindObjectsOfType<HealthUI>();
+        healthBars = GameObject.FindObjectsOfType<HealthUI>(true);
         foreach (var bar in healthBars)
         {
             bar.gameObject.SetActive(false);
@@ -88,7 +100,6 @@ public class PlayerController : MonoBehaviour
             BindHealthAndMana(playerStats, i);
         }
 
-        Init();
     }
 
     private void BindHealthAndMana(HealthAndMana playerStats, int id)
@@ -113,18 +124,10 @@ public class PlayerController : MonoBehaviour
         playerStats.healthCallback = (float health) => healthBar.healthBar.fillAmount = health;
     }
 
-    private void Init()
-    {
-        horizontal = 0;
-        vertical = 0;
-        MovePrincipal();
-    }
-
     private void MoveIndicator()
     {
         playerIndicator.position = movement[currentPlayer].pivot.transform.position;
     }
-
 
     private void Update()
     {
@@ -166,6 +169,12 @@ public class PlayerController : MonoBehaviour
 
     public void MovePrincipal()
     {
+        if (DialogSystem.singleton && DialogSystem.DialogIsActive)
+        {
+            horizontal = 0;
+            vertical = 0;
+        }
+
         moving = vertical != 0 || horizontal != 0;
         bumping[currentPlayer].moving = moving;
 
@@ -179,37 +188,26 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             if (i == currentPlayer)
-            {
                 continue;
-            }
-
-            var direction = players[currentPlayer].transform.position - players[i].transform.position;
-            var distance = direction.magnitude;
-
-            bumping[i].moving = true;
-            movement[i].following = true;
-
-            if (distance <= partnerMinDistance || !followPlayer)
-            {
-                direction = Vector3.zero;
-                bumping[i].moving = false;
-            }
-
-            direction.y = direction.z;
-            direction.z = 0;
-
-            movement[i].Move(direction);
+            movement[i].Follow(players[currentPlayer].transform, partnerMinDistance, followPlayer);
         }
     }
 
     public void TogglePlayer()
     {
-        currentPlayer++;
-        if (currentPlayer >= players.Count)
+        currentPlayer = (currentPlayer + 1) % players.Count;
+        for (int i = 0; i < healthAndManas.Count; i++)
         {
-            currentPlayer = 0;
+            if (i == currentPlayer)
+            {
+                healthAndManas[i].autoHeal = false;
+                continue;
+            }
+            healthAndManas[i].autoHeal = true;
+            
         }
-        Init();
+
+        cameraControl.target = currentPlayerGameObject.transform;
     }
 
     private void Trigger()

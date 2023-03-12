@@ -127,7 +127,7 @@ TextureImporter:
         height: 268
       alignment: 9
       pivot: {x: 0.5, y: 0.09648482}
-      border: {x: 134, y: 104, z: 129, w: 56}
+      border: {x: 58, y: 92, z: 53, w: 56}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -676,7 +676,7 @@ TextureImporter:
     nameFileIdTable:
       emotion_assets_5: 481118304
       emotion_assets_12: -1151832560
-      emotion_assets_14: -873014772
+      emotion_assets_22: -382068078
       emotion_assets_21: 17759599
       emotion_assets_7: -1226937993
       emotion_assets_0: -860950378
@@ -699,7 +699,7 @@ TextureImporter:
       emotion_assets_24: 1267685264
       emotion_assets_11: -56718088
       emotion_assets_3: 580062182
-      emotion_assets_22: -382068078
+      emotion_assets_14: -873014772
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

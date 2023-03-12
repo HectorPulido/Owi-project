@@ -13,8 +13,9 @@ public class Movement : MonoBehaviour
     public Bumping bumping;
 
     private Vector3 speed;
-
     private float initialYRotation;
+    private bool flip = false;
+    private float followingSpeed = 1;
 
 
     private void Awake()
@@ -31,28 +32,53 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 direction)
-    {
-        Flip(direction.x);
-        direction.Normalize();
-        speed = new Vector3(
-            direction.x * horizontalSpeed * (following ? followingMultiplier : 1),
-            0,
-            direction.y * verticalSpeed * (following ? followingMultiplier : 1)
-        );
+    public void Follow(Transform player, float partnerMinDistance, bool followPlayer){
+        Vector3 direction = player.transform.position - transform.position;
+        var distance = direction.magnitude;
+
+        bumping.moving = true;
+        following = true;
+
+        if (distance <= partnerMinDistance || !followPlayer)
+        {
+            direction = Vector3.zero;
+            bumping.moving = false;
+        }
+
+        direction.y = direction.z;
+        direction.z = 0;
+
+        Move(direction, true);
     }
 
-    private void Flip(float directionX)
+    public void Move(Vector2 direction, bool minion = false)
     {
-        if (directionX == 0)
+        if (direction.x != 0)
+            flip = direction.x < 0;
+    
+        followingSpeed = following ? followingMultiplier : 1;
+
+        direction.Normalize();
+
+        transform.eulerAngles = new Vector3(
+            transform.eulerAngles.x,
+            (flip ? 180f: 0) + Camera.main.transform.eulerAngles.y,
+            transform.eulerAngles.z
+        );
+
+        if (minion)
         {
+            speed = new Vector3(
+                direction.x * horizontalSpeed * followingSpeed,
+                0,
+                direction.y * verticalSpeed * followingSpeed
+            );
             return;
         }
 
-        var rotation = transform.rotation.eulerAngles;
-        rotation.y = directionX > 0 ? initialYRotation : initialYRotation + 180;
-        transform.eulerAngles = rotation;
-
+        speed = transform.right * direction.x * horizontalSpeed
+            + transform.forward * direction.y * verticalSpeed ;
+        speed *= followingSpeed * (flip ? -1 : 1);
     }
 
     private void FixedUpdate()

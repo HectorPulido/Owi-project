@@ -17,14 +17,24 @@ public class HealthAndMana : MonoBehaviour
 
     public bool alive = true;
 
-    public float healthPercentage {
-        get {
-            return (float)health/(float)maxHealth;
+    public bool autoHeal = false;
+
+    public int autoHealAmount = 10;
+
+    public float autoHealTime = 1f;
+
+    public float healthPercentage
+    {
+        get
+        {
+            return (float)health / (float)maxHealth;
         }
     }
-    public float manaPercentage {
-        get {
-            return (float)mana/(float)maxMana;
+    public float manaPercentage
+    {
+        get
+        {
+            return (float)mana / (float)maxMana;
         }
     }
 
@@ -33,59 +43,75 @@ public class HealthAndMana : MonoBehaviour
     public System.Action<bool> aliveCallback;
 
 
-    public void Heal(int heal) {
-        if(!alive){
-            return;
+    private IEnumerator Start()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(autoHealTime);
+            if (!autoHeal || !alive)
+                continue;
+            Heal(autoHealAmount);
         }
-        if(health < 0){
+    }
+
+    public void Heal(int heal)
+    {
+        if (health == maxHealth)
             return;
-        }
+
+        if (!alive)
+            return;
+
+        if (health < 0)
+            return;
+
         health += heal;
 
-        if(health > maxHealth){
+        if (health > maxHealth)
             health = maxHealth;
-        }
 
-        if(healthCallback != null){
+        if (healthCallback != null)
             healthCallback(healthPercentage);
-        }
 
         ShowOnomatopeia($"+{heal}", true);
     }
 
-    public void TakeDamage(int damage){
-        if(!alive){
+    public void TakeDamage(int damage)
+    {
+        if (!alive)
             return;
-        }
 
         health -= damage;
 
-        if(health <= 0){
+        if (health <= 0)
+        {
             health = 0;
             alive = false;
             aliveCallback(alive);
         }
 
-        if(healthCallback != null){
+        if (healthCallback != null)
             healthCallback(healthPercentage);
-        }
 
         ShowOnomatopeia($"-{damage}", false);
     }
 
-    public void ShowOnomatopeia(string number, bool positive){
+    public void ShowOnomatopeia(string number, bool positive)
+    {
         var color = positive ? "green" : "red";
         Onomatopoeia.singleton.MoveText(transform);
         Onomatopoeia.singleton.SetText($"<color={color}>{number}</color>");
     }
 
     [ContextMenu("TestHeal")]
-    public void TestHeal(){
+    public void TestHeal()
+    {
         Heal(10);
     }
 
     [ContextMenu("TestGetDamage")]
-    public void TestGetDamage(){
+    public void TestGetDamage()
+    {
         TakeDamage(10);
     }
 }

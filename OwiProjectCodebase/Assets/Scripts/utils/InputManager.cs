@@ -11,6 +11,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public static float HorizontalMouse { get { return Input.GetAxis("Mouse X"); } }
+    public static float VerticalMouse { get { return Input.GetAxis("Mouse Y"); } }
+
     public static float HorizontalAxis
     {
         get

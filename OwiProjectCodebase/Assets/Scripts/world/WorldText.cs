@@ -17,7 +17,7 @@ public class WorldText : MonoBehaviour
             singleton = this;
             HideText();
 
-            cameraTransform = VirtualCameraManager.singleton.vcam.transform;
+            cameraTransform = Camera.main.transform;
             return;
         }
 
@@ -25,17 +25,18 @@ public class WorldText : MonoBehaviour
     }
 
     public void SetText(Vector3 position, string textToShow) {
-        textHolder.gameObject.SetActive(true);
+        textHolder.transform.parent.gameObject.SetActive(true);
         textHolder.text = textToShow;
         transform.position = position;
     }
 
     public void HideText() {
-        textHolder.gameObject.SetActive(false);
+        textHolder.transform.parent.gameObject.SetActive(false);
     }
 
-    private void Update(){
-        transform.LookAt(cameraTransform);
+    private void Update() {
+        var rot = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+        transform.rotation = rot;
     }
 
 
